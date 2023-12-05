@@ -19,14 +19,14 @@ console.log(currentDate)
 
 const createdAt = currentDate.toISOString().slice(0, 19).replace("T", " ");
 
-console.log(process.env.HOST_KEY)
+
 
 // console.log(process.env.HOST_KEY);
 
 app.use(cors());
 app.use(express.json());
 
-app.listen(19001, () => {
+app.listen(process.env.PORT, () => {
   console.log("running");
 });
 

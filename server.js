@@ -2,7 +2,7 @@ const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
 const app = express();
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 const salt = 10;
 const emailjs = require("@emailjs/nodejs");
 require('dotenv').config();
@@ -82,7 +82,7 @@ app.post("/signupFinal", (req, res) => {
   const contactNum = req.body.contactNum;
   const email = req.body.email;
   const pass = req.body.pass;
-  const hash = bcrypt.hashSync(pass, salt);
+//   const hash = bcrypt.hashSync(pass, salt);
   const provinceData = req.body.selectedProvince;
   const cityData = req.body.selectedCity;
   const brgyData = req.body.selectedBrgy;
@@ -91,7 +91,7 @@ app.post("/signupFinal", (req, res) => {
 
   db.query(
     "INSERT INTO usertbl (user_type, user_fname, user_lname, user_mname, user_bdate, user_gender, user_age, user_contact_num, user_email, user_password, user_province, user_city, user_barangay, user_created_at ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)",
-    [userType, firstName, lastName, middleName, formattedDate, gender, userage, contactNum, email, hash,  provinceData, cityData, brgyData,createdAt],
+    [userType, firstName, lastName, middleName, formattedDate, gender, userage, contactNum, email, pass,  provinceData, cityData, brgyData,createdAt],
 (error, results) => {
   if (error) {
     console.log(error);
@@ -2184,14 +2184,18 @@ app.post("/viewBusinessInstallments", (req, res) => {
               }
         
               if (results.length > 0) {
-                console.log(results.length)
-                bcrypt.compare(pass, results[0].user_password, (err, response) => {
-                  if (response) {
+                if (response) {
                     return res.send({ success: true, results: results });
                   } else {
                     return res.send({ success: false, message: "Wrong password" });
                   }
-                });
+                // bcrypt.compare(pass, results[0].user_password, (err, response) => {
+                //   if (response) {
+                //     return res.send({ success: true, results: results });
+                //   } else {
+                //     return res.send({ success: false, message: "Wrong password" });
+                //   }
+                // });
               } else {
                 return res.send({ success: false, message: "Wrong username" });
               }
@@ -4025,12 +4029,12 @@ app.post("/handleSendCode", (req, res) => {
 app.post("/UpdateUserPass", (req, res) => {
   const email = req.body.email;
   const password = req.body.password
-  const hash = bcrypt.hashSync(password, salt);
+//   const hash = bcrypt.hashSync(password, salt);
 
   
   db.query(
       "UPDATE usertbl SET user_password = ? where user_email = ?",
-  [hash, email],
+  [password, email],
       (error, results) => {
       if (error) {
         console.log(error);

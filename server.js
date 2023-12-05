@@ -2184,11 +2184,16 @@ app.post("/viewBusinessInstallments", (req, res) => {
               }
         
               if (results.length > 0) {
-                if (response) {
-                    return res.send({ success: true, results: results });
+                if (results[0].user_password === pass) {
+                    return res.send({ success: true, results });
                   } else {
                     return res.send({ success: false, message: "Wrong password" });
                   }
+                // if (response) {
+                //     return res.send({ success: true, results: results });
+                //   } else {
+                //     return res.send({ success: false, message: "Wrong password" });
+                //   }
                 // bcrypt.compare(pass, results[0].user_password, (err, response) => {
                 //   if (response) {
                 //     return res.send({ success: true, results: results });

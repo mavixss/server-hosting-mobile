@@ -156,7 +156,7 @@ app.post("/getIdFinal", (req, res) => {
   const id = req.body.user;
 
   db.query(
-        "select * from usertbl inner join user_identity on usertbl.user_id = user_identity.user_identity_user_id where user_id = ?",
+        "select * from usertbl left join user_identity on usertbl.user_id = user_identity.user_identity_user_id where user_id = ?",
         // "SELECT * FROM usertbl INNER JOIN business ON  business.buss_user_id = usertbl.user_id  where user_id = ?",
     [id],
     (error, results) => {
